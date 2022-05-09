@@ -38,7 +38,7 @@ near call <contract-id> joinGame '{"id": <id>}' --account_id <account-id> --amou
 **Add the number**
 
 ```
-near call <contract-id> play '{"id": <id>, "addNum": <number>}' --account_id <account-id>
+near call <contract-id> add '{"id": <id>, "addNum": <number>}' --account_id <account-id>
 ```
 
 ---
