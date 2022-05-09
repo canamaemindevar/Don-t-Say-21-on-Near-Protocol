@@ -1,4 +1,4 @@
-# Guess My Number (1 - 10) as a NEAR contract
+# DON'T SAY 21 as a NEAR contract
 
 ## Install dependencies
 
@@ -13,60 +13,32 @@ yarn build
 near dev-deploy ./out/main.wasm
 ```
 
-## How to Play without bet
-
-1. Player1 calls function `createGame` and pays 1 NEAR to do it.
-2. Player2 calls function `joinGame(id)` with id, as argument and pays 1 NEAR to do it.
-3. Player1 calls function `play(id, selectedNumber)` with id and selectedNumber as arguments
-4. Player2 calls function `play(id, selectedNumber)` with id and selectedNumber as arguments
-5. Players continue the game until someone win or exceed the turn limit which is 6.
+## How to Play 
+1. At the beginning number is 0 each player can will add 1 or 2 or 3. 4 and more are not allowed. Who says 21 or more will lost.
+2. Player1 calls function `createGame` and pays 0.1 NEAR to do it.
+3. Player2 calls function `joinGame(id)` with id, as argument and pays 0.1 NEAR to do it.
+4. Players calls function `add(id, addNum)` with id and addNum(the number which is chosen ) as arguments
+5. Who says 21 will lost.
+6. Winner Gets the reward 0.2 near.
 
 ## Run the game
 
 **Create a game**
 
 ```
-near call <contract-id> createGame --account_id <account-id> --amount 1
+near call <contract-id> createGame --account_id <account-id> --amount 0.1
 ```
 
 **Join the game**
 
 ```
-near call <contract-id> joinGame '{"id": <id>}' --account_id <account-id> --amount 1
+near call <contract-id> joinGame '{"id": <id>}' --account_id <account-id> --amount 0.1
 ```
 
-**Play the game**
+**Add the number**
 
 ```
-near call <contract-id> play '{"id": <id>, "selectedNumber": <selected-number>}' --account_id <account-id>
+near call <contract-id> play '{"id": <id>, "addNum": <number>}' --account_id <account-id>
 ```
 
 ---
-
-## How to Play with bet
-
-1. Player1 calls function `createGame(bet)` with bet, as argument and pays "{bet}" amount of NEAR to do it.
-2. Player2 calls function `joinGame(id, bet)` with id and bet, as arguments and pays exactly the same amount as Player1 to do it.
-3. Player1 calls function `play(id, selectedNumber)` with id and selectedNumber as arguments
-4. Player2 calls function `play(id, selectedNumber)` with id and selectedNumber as arguments
-5. Players continue the game until someone win or exceed the turn limit which is 6.
-
-## Run the game
-
-**Create a game**
-
-```
-near call <contract-id> createGame '{"bet": <bet>}' --account_id <account-id> --amount <bet>
-```
-
-**Join the game**
-
-```
-near call <contract-id> joinGame '{"id": <id>, "bet": <bet>}' --account_id <account-id> --amount <bet>
-```
-
-**Play the game**
-
-```
-near call <contract-id> play '{"id": <id>, "selectedNumber": <selected-number>}' --account_id <account-id>
-```

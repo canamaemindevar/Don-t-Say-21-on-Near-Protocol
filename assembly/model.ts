@@ -1,41 +1,34 @@
-import { RNG, context, logging, u128, PersistentUnorderedMap, math } from 'near-sdk-as';
+import { context, u128, PersistentUnorderedMap, } from "near-sdk-as";
 
-export enum State {
-  Created,
-  InProgress,
-  Completed
+export enum State{
+    Created,
+    StartedAlready,
+    GameOver
 }
-
 @nearBindgen
-export class Game {
-  id: string;
-  state: State;
-  player1: string;
-  player2: string;
-  nextPlayer: string;
-  roundsPlayed: u8;
-  hashedNumber: Uint8Array;
-  totalAmount: u128;
-  creationAmount: u128;
-  bet: u128 = u128.Zero;
+export class Game21{
+    id: string;
+    state: State;
+    player1: string;
+    player2: string;
+    whoseTurn: string;
+    totalAmount: u128;
+    creationAmount: u128;
+    number: i32;
+   
 
-  constructor() {
+
+constructor() {
+    this.state=State.Created
     this.id = context.blockIndex.toString().slice(2, 8);
-
-    let rng = new RNG<u8>(1, 10);
-    let roll = rng.next();
-
-    let choosedNumber = new Uint8Array(roll + 1).byteLength;
-    this.hashedNumber = math.hash(choosedNumber);
-
-    this.state = State.Created;
     this.player1 = context.sender;
-    this.nextPlayer = this.player1;
+    this.whoseTurn = this.player1;
     this.player2 = '';
-    this.roundsPlayed = 0;
+    this.number = 0;
     this.totalAmount = context.attachedDeposit;
     this.creationAmount = context.attachedDeposit;
-  }
 }
 
-export const games = new PersistentUnorderedMap<string, Game>('g');
+}
+
+export const games = new PersistentUnorderedMap<string,Game21>('g')
